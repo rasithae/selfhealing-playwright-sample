@@ -34,9 +34,6 @@ export const config = {
     CDPHelper: {
       require: './helpers/CDPHelper.ts'
     },
-    // OpenAI: {
-    //   chunkSize: 8000
-    // },
     Expect: {},
     REST: {
       endpoint: 'https://reqres.in',
