@@ -9,14 +9,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Create .env file
+        with:
+          envkey_GROQAPIKEY: ${{ secrets.GROQAPIKEY }}
+          file_name: .env
+
       - name: Use Node.js 18
         uses: actions/setup-node@v1
         with:
           node-version: 18
-          
-      - name: Create .env file
-        run: |
-          echo "GROQAPIKEY=${{ secrets.GROQAPIKEY }}" > .env
-          
+              
       - run: npm i && npx playwright install
       - run: npx codeceptjs def && npm test
