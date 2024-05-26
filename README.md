@@ -9,6 +9,12 @@ Install the dependencies and devDependencies.
 cd codeceptjs-playwright-fun
 npm i
 ```
+
+### Create a .env file and add GROQ_API_KEY
+```
+GROQ_API_KEY=<Api Key>
+```
+
 ### How to trigger test
 To run all tests just simply type
 
