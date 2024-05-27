@@ -15,9 +15,9 @@ Scenario('Github Login - Incorrect username or password.', () => {
 });
 
 Scenario('Assurity Sample Page Login', () => {
-    I.amOnPage('https://selfhealingtestsample1.on.drv.tw/www.self-healing.test/')
+    I.amOnPage('https://jesrellf.github.io/SelfHealingSample/')
     I.fillField(loginPage.assurityLogin.usernameTxt, 'user');
     I.fillField(loginPage.assurityLogin.passwordTxt, 'password');
     I.click(loginPage.assurityLogin.loginBtn);
-    I.see('You are logged in!');
+    I.see('CRUD Table');
   });
