@@ -10,8 +10,8 @@ export = {
     },
 
     assurityLogin:{
-        usernameTxt:'usernames1',
-        passwordTxt:'Password',
+        usernameTxt:"//input[@class='usernamex']",
+        passwordTxt:'password',
         loginBtn:'Log in'
     }
 }

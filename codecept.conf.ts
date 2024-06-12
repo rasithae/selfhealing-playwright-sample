@@ -20,9 +20,11 @@ const groq = new Groq({
 
 
 export const config = {
-  tests: './tests/login_test.ts',
+  tests: './tests/salesforce_accounts_test.ts',
+  //tests: './tests/login_test.ts',
   output: './output',
   emptyOutputFolder: true,
+  //timeout: 30,
   helpers: {
     Playwright: {
       url: 'https://github.com',
@@ -45,15 +47,34 @@ export const config = {
   },
   name: 'codeceptjs-playwright-fun',
   ai: {
-      request: async (messages) => {
-        const chatCompletion = await groq.chat.completions.create({
-            messages,
-            model: "mixtral-8x7b-32768"    // mixtral-8x7b-32768  llama2-70b-4096 || gemma-7b-it || llama3-70b-8192 || mixtral-8x7b-32768
-        });
-        return chatCompletion.choices[0]?.message?.content || "";
-      }
+    request: async (messages) => {
+      const chatCompletion = await groq.chat.completions.create({
+          messages,
+          model: "mixtral-8x7b-32768"    // mixtral-8x7b-32768  llama2-70b-4096 || gemma-7b-it || llama3-70b-8192 || mixtral-8x7b-32768
+      });
+      return chatCompletion.choices[0]?.message?.content || "";
     },
-
+    model: 'mixtral-8x7b-32768',
+    temperature: 0.1,
+    html: {
+      maxLength: 15000,
+      simplify: true,
+      minify: true,
+      interactiveElements: [
+        'a', 'input', 'button', 'select', 'textarea', 'option',
+        'm-button', 'm-text-input', 'm-number-input', 'm-text-area',
+        'm-form-multiselect', 'm-options-container', 'm-form-checkbox',
+        'm-form-date-picker',
+        'm-v2-form-field', 'm-v2-radio-button', 'm-v2-checkbox'
+      ],
+      textElements: ['label', 'h1', 'h2', 'm-v2-form-label'],
+      allowedAttrs: [
+        'id', 'for', 'class', 'name', 'type', 'value', 'tabindex', 'label', 'role',
+        'data-test',
+      ],
+      allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
+    },
+  },
   plugins: {
     reportportal: {
       enabled: false,
@@ -66,39 +87,15 @@ export const config = {
     heal: {
       enabled: true,
     },
-    // ai: {
-    //   request: async (messages) => {
-    //     const chatCompletion = await groq.chat.completions.create({
-    //         messages,
-    //         model: "mixtral-8x7b-32768"    // mixtral-8x7b-32768  llama2-70b-4096 || gemma-7b-it || llama3-70b-8192 || mixtral-8x7b-32768
-    //     });
-    //     return chatCompletion.choices[0]?.message?.content || "";
-    //   },
-    //   model: 'mixtral-8x7b-32768',
-    //   temperature: 0.1,
-    //   html: {
-    //     maxLength: 50000,
-    //     simplify: true,
-    //     minify: true,
-    //     interactiveElements: [
-    //       'a', 'input', 'button', 'select', 'textarea', 'option',
-    //       'm-button', 'm-text-input', 'm-number-input', 'm-text-area',
-    //       'm-form-multiselect', 'm-options-container', 'm-form-checkbox',
-    //       'm-form-date-picker',
-    //       'm-v2-form-field', 'm-v2-radio-button', 'm-v2-checkbox'
-    //     ],
-    //     textElements: ['label', 'h1', 'h2', 'm-v2-form-label'],
-    //     allowedAttrs: [
-    //       'id', 'for', 'class', 'name', 'type', 'value', 'tabindex', 'label', 'role',
-    //       'data-test',
-    //     ],
-    //     allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
-    //   },
-    // },
     allure: {
       enabled: true,
       require: "allure-codeceptjs",
       outputDir: "./allure-results",
+    },
+    testomatio: {
+      enabled: false,
+      require: '@testomatio/reporter/lib/adapter/codecept',
+      apiKey: process.env.TESTOMATIO,
     },
     retryFailedStep: {
       enabled: false,
